@@ -52,12 +52,14 @@ const Comment = (props) => {
                 <SingleComment
                   key={index}
                   comment={comment}
-                  postId={props.videoId}
+                  postId={props.postId}
                   refreshFunc={props.refreshFunc}
                 />
                 <ReplyComment
                   commentList={props.commentsList}
                   parentCommentId={comment._id}
+                  postId={props.videoId}
+                  refreshFunc={props.refreshFunc}
                 />
               </React.Fragment>
             )

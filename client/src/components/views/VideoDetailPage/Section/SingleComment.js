@@ -3,10 +3,12 @@ import { Comment, Avatar, Button, Input } from "antd";
 import { set } from "mongoose";
 import Axios from "axios";
 import { useSelector } from "react-redux";
+import LikeDislikes from "./LikeDislikes";
 
 const { TextArea } = Input;
 
 const SingleComment = (props) => {
+  console.log(props);
   const user = useSelector((state) => state.user);
   const [openReply, setOpenReply] = useState(false);
   const [commentValue, setCommentValue] = useState("");
@@ -19,6 +21,7 @@ const SingleComment = (props) => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log("single comment submit clicked");
 
     const variable = {
       comment: commentValue,
@@ -26,7 +29,7 @@ const SingleComment = (props) => {
       postId: props.postId,
       responseTo: props.comment._id,
     };
-
+    console.log("before saveComment", variable);
     Axios.post("/api/comment/saveComment", variable).then((res) => {
       if (res.data.success) {
         console.log("Comment:", res.data);
@@ -38,6 +41,10 @@ const SingleComment = (props) => {
     });
   };
   const actions = [
+    <LikeDislikes
+      userId={localStorage.getItem("userId")}
+      commentId={props.comment._id}
+    />,
     <span onClick={onClickReplyOpen} key="comment-basic-reply-to">
       Reply to
     </span>,
